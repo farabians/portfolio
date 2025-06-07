@@ -11,5 +11,5 @@ echo GitHub'a gönderiliyor...
 git push
 echo.
 
-echo Islem tamamlandı!
+echo Islem tamamlandi
 pause 
