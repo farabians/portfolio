@@ -7,7 +7,7 @@ set /p commit_message=Guncelleme mesajini yazin:
 git commit -m "%commit_message%"
 echo.
 
-echo GitHub'a gönderiliyor...
+echo GitHub'a gonderiliyor...
 git push
 echo.
 
