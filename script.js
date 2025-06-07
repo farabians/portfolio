@@ -1,0 +1,290 @@
+// Futuristic Portfolio JavaScript
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile Menu Toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuToggle.querySelector('i').classList.toggle('fa-bars');
+    menuToggle.querySelector('i').classList.toggle('fa-times');
+  });
+
+  // Mobile Dropdown Toggle
+  dropdowns.forEach(dropdown => {
+    const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+    
+    dropdownToggle.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+        const chevron = dropdownToggle.querySelector('.fa-chevron-down');
+        chevron.style.transform = dropdown.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+      }
+    });
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+      navLinks.classList.remove('active');
+      menuToggle.querySelector('i').classList.remove('fa-times');
+      menuToggle.querySelector('i').classList.add('fa-bars');
+    }
+  });
+
+  // ScrollReveal animations
+  if (window.ScrollReveal) {
+    ScrollReveal().reveal('.hero', {
+      duration: 1200,
+      origin: 'top',
+      distance: '40px',
+      opacity: 0,
+      easing: 'cubic-bezier(0.5, 0, 0, 1)',
+      reset: false
+    });
+    ScrollReveal().reveal('.floating-card', {
+      duration: 1200,
+      origin: 'bottom',
+      distance: '60px',
+      opacity: 0,
+      interval: 200,
+      easing: 'cubic-bezier(0.5, 0, 0, 1)',
+      reset: false
+    });
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({
+          top: target.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Floating hexagons and particles
+  const techBg = document.querySelector('.tech-bg');
+  if (techBg) {
+    for (let i = 0; i < 12; i++) {
+      const hex = document.createElement('div');
+      hex.className = 'hexagon';
+      hex.style.left = Math.random() * 100 + 'vw';
+      hex.style.top = Math.random() * 100 + 'vh';
+      hex.style.animationDelay = (Math.random() * 12) + 's';
+      hex.style.transform = `scale(${0.7 + Math.random() * 0.8})`;
+      techBg.appendChild(hex);
+    }
+    for (let i = 0; i < 24; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.animationDelay = (Math.random() * 8) + 's';
+      techBg.appendChild(particle);
+    }
+  }
+
+  // Card 3D hover effect
+  document.querySelectorAll('.floating-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * 8;
+      const rotateY = ((x - centerX) / centerX) * 8;
+      card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Image Modal Functionality
+  const modal = document.querySelector('.image-modal');
+  const modalImg = modal.querySelector('img');
+  const closeBtn = modal.querySelector('.close-modal');
+  const prevBtn = modal.querySelector('.prev-btn');
+  const nextBtn = modal.querySelector('.next-btn');
+  const gridImages = document.querySelectorAll('.grid-image img');
+  let currentImageIndex = 0;
+
+  // Open modal when clicking on an image
+  gridImages.forEach((img, index) => {
+    img.addEventListener('click', () => {
+      currentImageIndex = index;
+      updateModalImage();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    });
+  });
+
+  // Update modal image
+  function updateModalImage() {
+    modalImg.src = gridImages[currentImageIndex].src;
+    modalImg.alt = gridImages[currentImageIndex].alt;
+  }
+
+  // Previous image
+  prevBtn.addEventListener('click', () => {
+    currentImageIndex = (currentImageIndex - 1 + gridImages.length) % gridImages.length;
+    updateModalImage();
+  });
+
+  // Next image
+  nextBtn.addEventListener('click', () => {
+    currentImageIndex = (currentImageIndex + 1) % gridImages.length;
+    updateModalImage();
+  });
+
+  // Navigate with arrow keys
+  document.addEventListener('keydown', (e) => {
+    if (modal.classList.contains('active')) {
+      if (e.key === 'ArrowLeft') {
+        currentImageIndex = (currentImageIndex - 1 + gridImages.length) % gridImages.length;
+        updateModalImage();
+      } else if (e.key === 'ArrowRight') {
+        currentImageIndex = (currentImageIndex + 1) % gridImages.length;
+        updateModalImage();
+      }
+    }
+  });
+
+  // Close modal when clicking the close button
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable scrolling
+  });
+
+  // Close modal when clicking outside the image
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Horizontal Scroll Functionality
+  const scrollContainers = document.querySelectorAll('.horizontal-block');
+
+  scrollContainers.forEach(container => {
+    const imageGrid = container.querySelector('.image-grid');
+    const leftBtn = container.querySelector('.scroll-left');
+    const rightBtn = container.querySelector('.scroll-right');
+    const images = imageGrid.querySelectorAll('.grid-image');
+    const scrollAmount = images[0].offsetWidth + 20; // Image width + gap
+    const totalImages = images.length;
+    
+    let currentIndex = 0;
+    let isScrolling = false;
+
+    // Create pagination dots
+    const paginationContainer = container.querySelector('.pagination-dots');
+    for (let i = 0; i < totalImages; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        if (!isScrolling) {
+          currentIndex = i;
+          scrollToImage(i);
+        }
+      });
+      paginationContainer.appendChild(dot);
+    }
+
+    // Function to update active dot
+    const updateActiveDot = (index) => {
+      container.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    };
+
+    // Function to scroll to specific image with smooth transition to first image
+    const scrollToImage = (index, smooth = true) => {
+      isScrolling = true;
+      
+      // If we're at the last image and moving to the first
+      if (currentIndex === totalImages - 1 && index === 0) {
+        // First scroll a bit more to the right to create smooth transition effect
+        imageGrid.scrollTo({
+          left: (totalImages - 1) * scrollAmount + 50,
+          behavior: 'smooth'
+        });
+        
+        // Then quickly snap to first image
+        setTimeout(() => {
+          imageGrid.scrollTo({
+            left: 0,
+            behavior: 'auto'
+          });
+          isScrolling = false;
+        }, 300);
+      } else {
+        // Normal scroll between images
+        imageGrid.scrollTo({
+          left: index * scrollAmount,
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+        
+        setTimeout(() => {
+          isScrolling = false;
+        }, 300);
+      }
+      
+      updateActiveDot(index);
+    };
+
+    // Left scroll button
+    leftBtn.addEventListener('click', () => {
+      if (!isScrolling) {
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+        scrollToImage(currentIndex);
+      }
+    });
+
+    // Right scroll button
+    rightBtn.addEventListener('click', () => {
+      if (!isScrolling) {
+        currentIndex = (currentIndex + 1) % totalImages;
+        scrollToImage(currentIndex);
+      }
+    });
+
+    // Update dots and buttons on scroll
+    imageGrid.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        const newIndex = Math.round(imageGrid.scrollLeft / scrollAmount);
+        if (newIndex !== currentIndex) {
+          currentIndex = newIndex % totalImages;
+          updateActiveDot(currentIndex);
+        }
+      }
+
+      // Show/hide navigation buttons
+      leftBtn.style.opacity = imageGrid.scrollLeft > 0 ? '1' : '0';
+      rightBtn.style.opacity = '1'; // Always show right button for infinite scroll
+    });
+
+    // Initial button visibility
+    rightBtn.style.opacity = '1';
+    leftBtn.style.opacity = '0';
+  });
+});
