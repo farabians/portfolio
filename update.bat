@@ -1,9 +1,9 @@
 @echo off
-echo Değişiklikler kontrol ediliyor...
+echo Degisiklikler kontrol ediliyor...
 git add .
 echo.
 
-set /p commit_message=Güncelleme mesajını yazın: 
+set /p commit_message=Guncelleme mesajini yazin: 
 git commit -m "%commit_message%"
 echo.
 
@@ -11,5 +11,5 @@ echo GitHub'a gönderiliyor...
 git push
 echo.
 
-echo İşlem tamamlandı!
+echo Islem tamamlandı!
 pause 
