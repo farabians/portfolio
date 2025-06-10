@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelector('.nav-links');
   const dropdowns = document.querySelectorAll('.dropdown');
 
-  menuToggle.addEventListener('click', () => {
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
     navLinks.classList.toggle('active');
     menuToggle.querySelector('i').classList.toggle('fa-bars');
     menuToggle.querySelector('i').classList.toggle('fa-times');
@@ -15,10 +16,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mobile Dropdown Toggle
   dropdowns.forEach(dropdown => {
     const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+    const dropdownMenu = dropdown.querySelector('.dropdown-menu');
     
     dropdownToggle.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
         e.preventDefault();
+        e.stopPropagation();
+        
+        // Close other dropdowns
+        dropdowns.forEach(d => {
+          if (d !== dropdown) {
+            d.classList.remove('active');
+            const otherChevron = d.querySelector('.fa-chevron-down');
+            if (otherChevron) {
+              otherChevron.style.transform = 'rotate(0)';
+            }
+          }
+        });
+
         dropdown.classList.toggle('active');
         const chevron = dropdownToggle.querySelector('.fa-chevron-down');
         chevron.style.transform = dropdown.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
@@ -26,13 +41,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Close mobile menu when clicking outside
+  // Close mobile menu and dropdowns when clicking outside
   document.addEventListener('click', (e) => {
     if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
       navLinks.classList.remove('active');
       menuToggle.querySelector('i').classList.remove('fa-times');
       menuToggle.querySelector('i').classList.add('fa-bars');
+      
+      // Close all dropdowns
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('active');
+        const chevron = dropdown.querySelector('.fa-chevron-down');
+        if (chevron) {
+          chevron.style.transform = 'rotate(0)';
+        }
+      });
     }
+  });
+
+  // Close mobile menu when clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        navLinks.classList.remove('active');
+        menuToggle.querySelector('i').classList.remove('fa-times');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+      }
+    });
+  });
+
+  // Handle window resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth > 768) {
+        navLinks.classList.remove('active');
+        menuToggle.querySelector('i').classList.remove('fa-times');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+        dropdowns.forEach(dropdown => {
+          dropdown.classList.remove('active');
+          const chevron = dropdown.querySelector('.fa-chevron-down');
+          if (chevron) {
+            chevron.style.transform = 'rotate(0)';
+          }
+        });
+      }
+    }, 250);
   });
 
   // ScrollReveal animations

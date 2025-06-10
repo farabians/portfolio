@@ -295,28 +295,33 @@ body::after {
 
 @media (max-width: 768px) {
   .navbar {
-    height: 60px;
+    padding: 0.5rem;
+    height: auto;
+    flex-wrap: wrap;
   }
 
   .menu-toggle {
     display: block;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
   }
 
   .nav-links {
-    position: fixed;
-    top: 60px;
-    left: -100%;
+    display: none;
     width: 100%;
-    height: calc(100vh - 60px);
-    background: rgba(10, 10, 31, 0.98);
+    padding: 1rem 0;
     flex-direction: column;
-    padding: 1.5rem;
-    transition: 0.3s ease;
-    backdrop-filter: blur(10px);
+    align-items: flex-start;
+    background: rgba(10, 10, 31, 0.95);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
   }
 
   .nav-links.active {
-    left: 0;
+    display: flex;
   }
 
   .nav-links li {
@@ -324,29 +329,148 @@ body::after {
   }
 
   .nav-links li a {
+    padding: 0.8rem 1rem;
     width: 100%;
-    justify-content: center;
-    font-size: 1.1rem;
-    padding: 1rem;
+    border-radius: 0;
   }
 
   .dropdown-menu {
     position: static;
     width: 100%;
-    min-width: unset;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0 1rem;
   }
 
-  .theme-toggle-fixed {
-    bottom: 1.5rem;
-    left: 1.5rem;
-    width: 3rem;
-    height: 3rem;
-    font-size: 1.2rem;
+  .dropdown:hover .dropdown-menu {
+    display: none;
   }
-  
+
+  .dropdown.active .dropdown-menu {
+    display: block;
+  }
+
   .logo {
-    font-size: 1.6rem;
-    min-width: 120px;
+    font-size: 1.4rem;
+  }
+
+  .horizontal-block {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .block-content {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .image-grid {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .grid-image {
+    flex: 0 0 calc(50% - 0.5rem);
+    margin: 0;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+  .about-section {
+    padding: 1rem;
+  }
+
+  .about-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .profile-info {
+    text-align: center;
+  }
+
+  .skills-tags {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .about-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tech-bg {
+    padding: 1rem;
+  }
+
+  .floating-programs {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .program-icon {
+    position: static;
+    transform: none !important;
+    animation: none !important;
+    margin: 0.5rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .footer-section {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-image {
+    flex: 0 0 100%;
+  }
+
+  .profile-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .block-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .block-content p {
+    font-size: 0.9rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
   }
 }
 
