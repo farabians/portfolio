@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = modal.querySelector('.close-modal');
   const prevBtn = modal.querySelector('.prev-btn');
   const nextBtn = modal.querySelector('.next-btn');
-  const gridImages = document.querySelectorAll('.grid-image img');
+  const gridImages = document.querySelectorAll('.grid-image img, .project-image');
   let currentImageIndex = 0;
 
   // Open modal when clicking on an image
@@ -341,5 +341,69 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial button visibility
     rightBtn.style.opacity = '1';
     leftBtn.style.opacity = '0';
+  });
+
+  // Smooth scroll functionality for portfolio links
+  const scrollLinks = document.querySelectorAll('.scroll-link');
+  
+  scrollLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      if (targetSection) {
+        // Close dropdown menu
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        dropdownMenu.style.display = 'none';
+        
+        // Smooth scroll to target
+        targetSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // Add active class to current section
+        scrollLinks.forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      dropdownMenu.style.display = 'none';
+    }
+  });
+  
+  // Toggle dropdown menu
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  
+  dropdownToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    const isDisplayed = dropdownMenu.style.display === 'block';
+    dropdownMenu.style.display = isDisplayed ? 'none' : 'block';
+  });
+});
+
+// Add scroll-based active state for sections
+window.addEventListener('scroll', function() {
+  const sections = document.querySelectorAll('section[id]');
+  const scrollPosition = window.scrollY + 200; // Offset for better active state switching
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    const sectionId = section.getAttribute('id');
+    const link = document.querySelector(`.scroll-link[href="#${sectionId}"]`);
+
+    if (link && scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+      document.querySelectorAll('.scroll-link').forEach(link => link.classList.remove('active'));
+      link.classList.add('active');
+    }
   });
 });
