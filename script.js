@@ -407,3 +407,74 @@ window.addEventListener('scroll', function() {
     }
   });
 });
+
+// PDF Modal Functionality
+const pdfModal = document.querySelector('.pdf-modal');
+const pdfViewer = document.querySelector('.pdf-viewer');
+const pdfModalTitle = document.querySelector('.pdf-modal-header h3');
+const viewPdfButtons = document.querySelectorAll('.view-pdf-btn');
+const closePdfBtn = document.querySelector('.close-pdf-btn');
+const downloadPdfBtn = document.querySelector('.download-pdf-btn');
+let currentPdfUrl = '';
+
+// Open PDF modal
+if (pdfModal && pdfViewer && viewPdfButtons.length > 0) {
+  viewPdfButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pdfUrl = button.getAttribute('data-pdf');
+      const pdfCard = button.closest('.pdf-card');
+      const pdfTitle = pdfCard.querySelector('.pdf-preview h3').textContent;
+      
+      currentPdfUrl = pdfUrl;
+      pdfViewer.src = pdfUrl;
+      if (pdfModalTitle) pdfModalTitle.textContent = pdfTitle;
+      pdfModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      console.log('PDF açılıyor:', pdfUrl);
+    });
+  });
+
+  // Close PDF modal
+  const closePdfModal = () => {
+    pdfModal.classList.remove('active');
+    pdfViewer.src = '';
+    currentPdfUrl = '';
+    document.body.style.overflow = '';
+  };
+
+  if (closePdfBtn) {
+    closePdfBtn.addEventListener('click', closePdfModal);
+  }
+
+  // Close modal when clicking outside
+  pdfModal.addEventListener('click', (e) => {
+    if (e.target === pdfModal) {
+      closePdfModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && pdfModal.classList.contains('active')) {
+      closePdfModal();
+    }
+  });
+
+  // Download PDF
+  if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', () => {
+      if (currentPdfUrl) {
+        const link = document.createElement('a');
+        link.href = currentPdfUrl;
+        link.download = currentPdfUrl.split('/').pop();
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
+  }
+}
+
+
