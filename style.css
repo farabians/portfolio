@@ -7,6 +7,8 @@ body {
   font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
   color: #fff;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
   position: relative;
   background: linear-gradient(
     135deg,
@@ -314,8 +316,9 @@ body::after {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.5rem;
+    padding: 0.5rem clamp(0.5rem, 3vw, 1rem);
     height: auto;
+    min-height: 60px;
     flex-wrap: wrap;
   }
 
@@ -324,19 +327,23 @@ body::after {
     font-size: 1.5rem;
     color: #fff;
     cursor: pointer;
+    padding: 0.5rem;
   }
 
   .nav-links {
     display: none;
     width: 100%;
+    max-width: 100%;
     padding: 1rem 0;
     flex-direction: column;
     align-items: flex-start;
-    background: rgba(10, 10, 31, 0.95);
+    background: rgba(10, 10, 31, 0.98);
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
 
   .nav-links.active {
@@ -374,7 +381,12 @@ body::after {
   }
 
   .logo {
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    min-width: auto;
+  }
+
+  .logo img {
+    height: clamp(1.5rem, 5vw, 2rem) !important;
   }
 
   .horizontal-block {
@@ -488,15 +500,17 @@ body::after {
   }
 
   .navbar {
-    padding: 0.5rem;
+    padding: 0.5rem clamp(0.5rem, 2vw, 1rem);
+    min-height: 55px;
   }
 
   .logo {
-    font-size: 1.2rem;
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+    min-width: auto;
   }
 
   .logo img {
-    height: 2rem !important;
+    height: clamp(1.3rem, 4vw, 1.8rem) !important;
   }
 
   .content-wrapper {
@@ -526,9 +540,11 @@ body::after {
 .content-wrapper {
   padding: 120px 40px 40px 40px;
   max-width: 1800px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
@@ -557,7 +573,9 @@ body::after {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -630,11 +648,13 @@ body::after {
   gap: 20px;
   padding: 20px 0;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   position: relative;
   cursor: grab;
+  -webkit-overflow-scrolling: touch;
 }
 
 .image-grid::-webkit-scrollbar {
@@ -1495,6 +1515,9 @@ body::after {
 main {
   position: relative;
   z-index: 2;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Theme Toggle Button */
@@ -1877,6 +1900,9 @@ main .content-wrapper {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px; /* Adjust based on your header height */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Section Transitions */
@@ -1903,9 +1929,11 @@ section:target {
   gap: 20px;
   padding: 20px 0;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pdf-grid::-webkit-scrollbar {
