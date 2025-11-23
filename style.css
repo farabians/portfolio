@@ -1748,13 +1748,23 @@ section:target {
 
 /* PDF Viewer Styles */
 .pdf-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  padding: 20px;
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pdf-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .pdf-card {
+  flex: 0 0 300px;
+  height: 400px;
+  scroll-snap-align: start;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
@@ -1762,10 +1772,14 @@ section:target {
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .pdf-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
   background: rgba(255, 255, 255, 0.08);
   border-color: #00c3ff;
   box-shadow: 0 10px 30px rgba(0, 195, 255, 0.3);
@@ -1773,6 +1787,11 @@ section:target {
 
 .pdf-preview {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 .pdf-preview i {
@@ -1788,6 +1807,19 @@ section:target {
   margin: 0;
 }
 
+.pdf-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.pdf-info p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
 .view-pdf-btn {
   background: linear-gradient(45deg, #ff00ff, #00c3ff);
   color: #fff;
@@ -1800,6 +1832,7 @@ section:target {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 .view-pdf-btn:hover {
