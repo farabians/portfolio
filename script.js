@@ -354,10 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetSection = document.querySelector(targetId);
       
       if (targetSection) {
-        // Close dropdown menu
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-        dropdownMenu.style.display = 'none';
-        
         // Smooth scroll to target
         targetSection.scrollIntoView({
           behavior: 'smooth',
@@ -369,24 +365,6 @@ document.addEventListener('DOMContentLoaded', () => {
         this.classList.add('active');
       }
     });
-  });
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown')) {
-      const dropdownMenu = document.querySelector('.dropdown-menu');
-      dropdownMenu.style.display = 'none';
-    }
-  });
-  
-  // Toggle dropdown menu
-  const dropdownToggle = document.querySelector('.dropdown-toggle');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  
-  dropdownToggle.addEventListener('click', function(e) {
-    e.preventDefault();
-    const isDisplayed = dropdownMenu.style.display === 'block';
-    dropdownMenu.style.display = isDisplayed ? 'none' : 'block';
   });
 });
 
